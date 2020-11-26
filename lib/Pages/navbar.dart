@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:food_homescreen/Pages/categories.dart';
 import 'package:food_homescreen/Pages/homescreen.dart';
+import 'package:food_homescreen/Pages/orders.dart';
 import 'package:food_homescreen/customIcons/my_icons_icons.dart';
+import 'package:food_homescreen/models/categories.dart';
 
 class Navigation extends StatefulWidget {
   @override
@@ -20,13 +23,13 @@ class _NavigationState extends State<Navigation> {
 
     switch (_index) {
       case 0:
-        child = HomeScreen();
+        child = CategoriesPage();
         break;
       case 1:
         child = HomeScreen();
         break;
       case 2:
-        child = HomeScreen();
+        child = OrdersPage();
         break;
     }
 

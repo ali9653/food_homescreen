@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/screenutil.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:food_homescreen/customIcons/my_icons_icons.dart';
 import 'package:food_homescreen/models/categories.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -15,6 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
   TextEditingController _search = TextEditingController();
   PageController _pageController;
   int pageIndex = 0;
+  int cartCounter = 1;
 
   var categoryList = [
     Categories(imageUrl: "assets/images/snacks1.jpg", title: "Snacks"),
@@ -23,31 +25,40 @@ class _HomeScreenState extends State<HomeScreen> {
     Categories(imageUrl: "assets/images/fruits1.jpeg", title: "Dry Fruits"),
     Categories(imageUrl: "assets/images/chocolates1.jpg", title: "Chocolates"),
     Categories(imageUrl: "assets/images/shakes1.jpg", title: "Milkshakes"),
-
-
   ];
 
   categoriesList() {
     return Container(
-      height: 140,
+      height: 110,
       child: Column(
         children: [
-          Divider(thickness: 0.5,),
+          Divider(
+            thickness: 0.5,
+          ),
           Container(
             height: 75,
             child: ListView.builder(
-
-
               scrollDirection: Axis.horizontal,
               shrinkWrap: true,
               itemCount: categoryList.length,
               itemBuilder: (context, index) {
                 return Container(
-                  margin: EdgeInsets.symmetric(horizontal: 17,vertical: 5),
-                  child: Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  margin: EdgeInsets.symmetric(horizontal: 17, vertical: 5),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Image.asset(categoryList[index].imageUrl,height: 40,width: 50,fit: BoxFit.cover,),
-                      SizedBox(height: 7,),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(35),
+                        child: Image.asset(
+                          categoryList[index].imageUrl,
+                          height: 40,
+                          width: 50,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 7,
+                      ),
                       Text(categoryList[index].title),
                     ],
                   ),
@@ -55,7 +66,9 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
           ),
-          Divider(thickness: 0.5,),
+          Divider(
+            thickness: 0.5,
+          ),
         ],
       ),
     );
@@ -92,9 +105,24 @@ class _HomeScreenState extends State<HomeScreen> {
                   )
                 ],
               ),
-              Icon(
-                MyIcons.shopping_cart,
-                color: Colors.grey[800],
+              Stack(
+                children: [
+                  Icon(
+                    MyIcons.shopping_cart,
+                    color: Colors.grey[800],
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 22),
+                    child: CircleAvatar(
+                      radius: 6,
+                      backgroundColor: Colors.deepOrange,
+                      child: Text(
+                        (cartCounter).toString(),
+                        style: TextStyle(fontSize: 10, color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ],
               )
             ],
           ),
@@ -264,6 +292,163 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  gridview() {
+    return Container(
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Container(
+                child: Icon(Icons.star),
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Container(
+                child: Text("Top Picks"),
+              )
+            ],
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Container(
+            child: StaggeredGridView.countBuilder(
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              crossAxisCount: 4,
+              itemCount: 6,
+              itemBuilder: (BuildContext context, int index) {
+                if (index == 1) {
+                  return Card(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    elevation: 1,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.redAccent,
+                      ),
+                      padding: EdgeInsets.all(10),
+                      height: 150,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Free Delivery",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                } else {
+                  return Card(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)),
+                    elevation: 2,
+                    child: Container(
+                      height: 220,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.only(left: 12.0, top: 8),
+                                  child: Text(
+                                    "Trupti",
+                                    style: GoogleFonts.damion(
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                Container
+                                  (
+                      height:45,
+                                  width: 25,
+
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey.withOpacity(0.1),
+                                      borderRadius: BorderRadius.only(
+                                          topRight: Radius.circular(20),bottomLeft: Radius.circular(7))),
+                                  child: GestureDetector(
+                                    child: Icon(
+                                      Icons.add,
+                                      size: 20,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                            height: 25,
+                          ),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          Center(
+                            child: Container(
+                              height: 110,
+                              child: Image.network(
+                                  "http://clipart-library.com/images_k/food-transparent-background/food-transparent-background-7.png"),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 12),
+                            child: Container(
+                              height: 50,
+                              child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      "Immunity ladoo",
+                                      style: TextStyle(fontSize: 13),
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text("₹ 360",
+                                            style: TextStyle(fontSize: 11)),
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              "00",
+                                              style: TextStyle(fontSize: 6),
+                                            ),
+                                            Text(
+                                              " ",
+                                              style: TextStyle(fontSize: 6),
+                                            )
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                    Text("per packet [250 gm]",
+                                        style: TextStyle(
+                                            fontSize: 11, color: Colors.grey))
+                                  ]),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                }
+              },
+              staggeredTileBuilder: (int index) => new StaggeredTile.fit(2),
+              mainAxisSpacing: 4.0,
+              crossAxisSpacing: 4.0,
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
   @override
   void initState() {
     _pageController = new PageController(initialPage: 0, viewportFraction: 1.0);
@@ -285,11 +470,12 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Padding(
         padding: EdgeInsets.all(ScreenUtil().setSp(15)),
         child: Container(
-          child: Column(
+          child: ListView(
             children: [
               searchBar(),
               cardsListView(),
               categoriesList(),
+              gridview()
             ],
           ),
         ),
